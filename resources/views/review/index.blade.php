@@ -5,7 +5,7 @@
 <div class="card shadow">
     <div class="card-header">
         <h4 class="card-title">
-            Data Kategori
+            Data Reviews
         </h4>
     </div>
     <div class="card-body">
@@ -24,9 +24,10 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Kategori</th>
-                        <th class="text-center">Deskripsi</th>
-                        <th class="text-center">Gambar</th>
+                        <th class="text-center">Member</th>
+                        <th class="text-center">Produk</th>
+                        <th class="text-center">Review</th>
+                        <th class="text-center">Rating</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -42,7 +43,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Form Kategori</h5>
+                <h5 class="modal-title">Form Review</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -50,11 +51,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col md-12">
-                        <form class="form-kategori">
-                            <div class="form-group">
-                                <label for="">Nama Kategori</label>
-                                <input type="text" class="form-control" name="nama_kategori" placeholder="Nama Kategori" required>
-                            </div>
+                        <form class="form-review">
+                            <select name="id_member" id="id_member" class="form-control">
+                                @foreach ($categories as $category)
+                                <option value="{{$category->id}}">{{$category->nama_kategori}}</option>
+                                @endforeach
+                            </select>
                             <div class="form-group">
                                 <label for="">Deskripsi</label>
                                 <textarea name="deskripsi" placeholder="Deskripsi" class="form-control" id="" cols="30" rows="10" required></textarea>
