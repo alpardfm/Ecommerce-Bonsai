@@ -40,9 +40,9 @@ class ReviewController extends Controller
 
     public function list()
     {
-        $product = Product::all();
-        $member = Member::all();
-        return view('review.index')->with('products', $product)->with('members', $member);
+        $products = Product::all();
+        $members = Member::all();
+        return view('review.index')->with('products', $products)->with('members', $members);
     }
 
     /**
