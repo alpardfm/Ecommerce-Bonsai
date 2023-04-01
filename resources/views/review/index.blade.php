@@ -52,18 +52,25 @@
                 <div class="row">
                     <div class="col md-12">
                         <form class="form-review">
+                            <label for="">Member</label>
                             <select name="id_member" id="id_member" class="form-control">
-                                @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->nama_kategori}}</option>
+                                @foreach ($members as $member)
+                                <option value="{{$member->id}}">{{$member->nama_member}}</option>
+                                @endforeach
+                            </select>
+                            <label for="">Produk</label>
+                            <select name="id_produk" id="id_produk" class="form-control">
+                                @foreach ($products as $produk)
+                                <option value="{{$produk->id}}">{{$produk->nama_produk}}</option>
                                 @endforeach
                             </select>
                             <div class="form-group">
-                                <label for="">Deskripsi</label>
-                                <textarea name="deskripsi" placeholder="Deskripsi" class="form-control" id="" cols="30" rows="10" required></textarea>
+                                <label for="">Reviews</label>
+                                <textarea name="review" placeholder="produk ini terbaik ....!!!" class="form-control" id="" cols="30" rows="10" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="">Gambar</label>
-                                <input type="file" class="form-control" name="gambar">
+                                <label for="">Rating</label>
+                                <input type="number" class="form-control" name="rating" placeholder="10" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -82,7 +89,7 @@
 <script>
     $(function() {
         $.ajax({
-            url: '/api/categories',
+            url: '/api/reviews',
             success: function({
                 data
             }) {
@@ -91,9 +98,10 @@
                     row += `
                         <tr>
                             <td class="text-center">${index+1}</td>
-                            <td class="text-center">${val.nama_kategori}</td>
-                            <td class="text-center">${val.deskripsi}</td>
-                            <td class="text-center"><img src="/uploads/${val.gambar}" width="150"></td>
+                            <td class="text-center">${val.member.nama_member}</td>
+                            <td class="text-center">${val.product.nama_produk}</td>
+                            <td class="text-center">${val.review}</td>
+                            <td class="text-center">${val.rating}</td>
                             <td class="text-center">
                                 <a data-toggle="modal" href="modal-form" data-id="${val.id}" class="btn btn-warning modal-ubah">Edit</a>
                                 <a href="#" data-id="${val.id}" class="btn btn-danger btn-hapus">Hapus</a>
@@ -111,7 +119,7 @@
                 $('tbody').empty()
                 var query = $(this).val();
                 $.ajax({
-                    url: "/api/categories",
+                    url: "/api/reviews",
                     type: "GET",
                     data: {
                         search: query
@@ -124,9 +132,10 @@
                             row += `
                         <tr>
                             <td class="text-center">${index+1}</td>
-                            <td class="text-center">${val.nama_kategori}</td>
-                            <td class="text-center">${val.deskripsi}</td>
-                            <td class="text-center"><img src="/uploads/${val.gambar}" width="150"></td>
+                            <td class="text-center">${val.member.nama_member}</td>
+                            <td class="text-center">${val.product.nama_produk}</td>
+                            <td class="text-center">${val.review}</td>
+                            <td class="text-center">${val.rating}</td>
                             <td class="text-center">
                                 <a data-toggle="modal" href="modal-form" data-id="${val.id}" class="btn btn-warning modal-ubah">Edit</a>
                                 <a href="#" data-id="${val.id}" class="btn btn-danger btn-hapus">Hapus</a>
@@ -149,7 +158,7 @@
 
             if (confirm_dialog) {
                 $.ajax({
-                    url: '/api/categories/' + id,
+                    url: '/api/reviews/' + id,
                     type: 'DELETE',
                     headers: {
                         "Authorization": "Bearer " + token
@@ -168,15 +177,17 @@
 
         $('.modal-tambah').click(function() {
             $('#modal-form').modal('show')
-            $('input[name="nama_kategori"]').val("")
-            $('textarea[name="deskripsi"]').val("")
+            $('input[name="id_member"]').val("")
+            $('input[name="id_produk"]').val("")
+            $('textarea[name="review"]').val("")
+            $('input[name="rating"]').val(0)
 
-            $('.form-kategori').submit(function(e) {
+            $('.form-review').submit(function(e) {
                 e.preventDefault()
                 const token = localStorage.getItem('token')
                 const formdata = new FormData(this);
                 $.ajax({
-                    url: 'api/categories',
+                    url: 'api/reviews',
                     type: 'POST',
                     data: formdata,
                     cache: false,
@@ -202,19 +213,21 @@
             $('#modal-form').modal('show')
             const id = $(this).data('id')
 
-            $.get('/api/categories/' + id, function({
+            $.get('/api/reviews/' + id, function({
                 data
             }) {
-                $('input[name="nama_kategori"]').val(data.nama_kategori)
-                $('textarea[name="deskripsi"]').val(data.deskripsi)
+                $('input[name="id_member"]').val(data.id_member)
+                $('input[name="id_produk"]').val(data.id_produk)
+                $('textarea[name="review"]').val(data.review)
+                $('input[name="rating"]').val(data.rating)
             })
 
-            $('.form-kategori').submit(function(e) {
+            $('.form-review').submit(function(e) {
                 e.preventDefault()
                 const token = localStorage.getItem('token')
                 const formdata = new FormData(this);
                 $.ajax({
-                    url: `api/categories/${id}?_method=PUT`,
+                    url: `api/reviews/${id}?_method=PUT`,
                     type: 'POST',
                     data: formdata,
                     cache: false,
