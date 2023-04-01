@@ -20,9 +20,19 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $members = Member::all();
+        $search = $request->has('search') ? $request->search : "";
+        $members = Member::where('nama_member', 'LIKE', '%' . $search . '%')
+            ->orWhere('provinsi', 'LIKE', '%' . $search . '%')
+            ->orWhere('kabupaten', 'LIKE', '%' . $search . '%')
+            ->orWhere('kecamatan', 'LIKE', '%' . $search . '%')
+            ->orWhere('detail_alamat', 'LIKE', '%' . $search . '%')
+            ->orWhere('no_hp', 'LIKE', '%' . $search . '%')
+            ->orWhere('email', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
+
 
         return response()->json([
             'data' => $members
@@ -77,6 +87,8 @@ class MemberController extends Controller
         $members = Member::create($input);
 
         return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menambah data',
             'data' => $members
         ]);
     }
@@ -136,7 +148,8 @@ class MemberController extends Controller
         $member->update($input);
 
         return response()->json([
-            'message' => 'success',
+            'success' => true,
+            'message' => 'Berhasil mengupdate data',
             'data' => $member
         ]);
     }
@@ -152,7 +165,8 @@ class MemberController extends Controller
         $member->delete();
 
         return response()->json([
-            'message' => 'success'
+            'success' => true,
+            'message' => 'Berhasil menghapus data'
         ]);
     }
 }
