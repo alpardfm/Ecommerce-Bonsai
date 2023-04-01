@@ -1,13 +1,8 @@
 @extends('layout.app')
-
+@section('title', 'Data Review')
 @section('content')
 
 <div class="card shadow">
-    <div class="card-header">
-        <h4 class="card-title">
-            Data Reviews
-        </h4>
-    </div>
     <div class="card-body">
         <div class="row">
             <div class="col">

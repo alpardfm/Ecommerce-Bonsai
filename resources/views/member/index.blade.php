@@ -1,13 +1,8 @@
 @extends('layout.app')
-
+@section('title', 'Data Member')
 @section('content')
 
 <div class="card shadow">
-    <div class="card-header">
-        <h4 class="card-title">
-            Data Member
-        </h4>
-    </div>
     <div class="card-body">
         <div class="row">
             <div class="col-4 mb-4">
