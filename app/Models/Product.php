@@ -15,10 +15,6 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'id_kategori', 'id');
     }
 
-    public function subcategory(){
-        return $this->belongsTo(Subcategory::class, 'id_subkategori', 'id');
-    }
-
     public function review(){
         return $this->hasMany(Review::class);
     }

@@ -21,7 +21,6 @@
                         <th class="text-center">No</th>
                         <th class="text-center">Nama Produk</th>
                         <th class="text-center">Kategori</th>
-                        <th class="text-center">Sub Kategori</th>
                         <th class="text-center">Harga</th>
                         <th class="text-center">Diskon</th>
                         <th class="text-center">Deskripsi</th>
@@ -59,14 +58,6 @@
                                 <select name="id_kategori" id="id_kategori" class="form-control">
                                     @foreach ($categories as $category)
                                     <option value="{{$category->id}}">{{$category->nama_kategori}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Sub Kategori</label>
-                                <select name="id_subkategori" id="id_subkategori" class="form-control">
-                                    @foreach ($subcategories as $subcategory)
-                                    <option value="{{$subcategory->id}}">{{$subcategory->nama_subkategori}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -114,7 +105,6 @@
                             <td class="text-center">${index+1}</td>
                             <td class="text-center">${val.nama_produk}</td>
                             <td class="text-center">${val.category.nama_kategori}</td>
-                            <td class="text-center">${val.subcategory.nama_subkategori}</td>
                             <td class="text-center">${val.harga}</td>
                             <td class="text-center">${val.diskon}</td>
                             <td class="text-center">${val.deskripsi}</td>
@@ -151,7 +141,6 @@
                             <td class="text-center">${index+1}</td>
                             <td class="text-center">${val.nama_produk}</td>
                             <td class="text-center">${val.category.nama_kategori}</td>
-                            <td class="text-center">${val.subcategory.nama_subkategori}</td>
                             <td class="text-center">${val.harga}</td>
                             <td class="text-center">${val.diskon}</td>
                             <td class="text-center">${val.deskripsi}</td>
@@ -199,7 +188,6 @@
             $('#modal-form').modal('show')
             $('input[name="nama_produk"]').val("")
             $('input[name="id_kategori"]').val("")
-            $('input[name="id_subkategori"]').val("")
             $('input[name="harga"]').val(0)
             $('input[name="diskon"]').val(0)
             $('textarea[name="deskripsi"]').val("")
@@ -241,7 +229,6 @@
                 $('#modal-form').modal('show')
                 $('input[name="nama_produk"]').val(data.nama_produk)
                 $('input[name="id_kategori"]').val(data.id_kategori)
-                $('input[name="id_subkategori"]').val(data.id_subkategori)
                 $('input[name="harga"]').val(data.harga)
                 $('input[name="diskon"]').val(data.diskon)
                 $('textarea[name="deskripsi"]').val(data.deskripsi)

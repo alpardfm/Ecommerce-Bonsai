@@ -27,7 +27,6 @@ class ProductController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $produk = Product::with('category')
-            ->with('subcategory')
             ->where('nama_produk', 'LIKE', '%' . $search . '%')
             ->orWhere('deskripsi', 'LIKE', '%' . $search . '%')
             ->orderBy('id', 'desc')
@@ -41,8 +40,7 @@ class ProductController extends Controller
     public function list()
     {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
-        return view('produk.index')->with('categories', $categories)->with('subcategories', $subcategories);
+        return view('produk.index')->with('categories', $categories);
     }
 
     /**
@@ -65,7 +63,6 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
-            'id_subkategori' => 'required',
             'nama_produk' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
@@ -133,7 +130,6 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
-            'id_subkategori' => 'required',
             'nama_produk' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',

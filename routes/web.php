@@ -21,7 +21,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('logout', [AuthController::class, 'logout']);
 
 Route::get('/kategori', [CategoryController::class, 'list']);
-Route::get('/subkategori', [SubcategoryController::class, 'list']);
 Route::get('/slider', [SliderController::class, 'list']);
 Route::get('/produk', [ProductController::class, 'list']);
 Route::get('/member', [MemberController::class, 'list']);

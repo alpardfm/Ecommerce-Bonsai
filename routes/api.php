@@ -27,7 +27,6 @@ Route::group([
 ], function(){
     Route::resources([
     'categories' => CategoryController::class,
-    'subcategories' => SubcategoryController::class,
     'sliders' => SliderController::class,
     'products' => ProductController::class,
     'members' => MemberController::class,
