@@ -12,8 +12,10 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index']);
+        $this->middleware('auth')->only(['listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -22,52 +24,133 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Order::all();
+        $order = Order::with('member')->get();
 
         return response()->json([
             'data' => $order
         ]);
     }
 
-    public function dikonfirmasi()
+    public function listBaru()
     {
-        $orders = Order::where('status', 'Dikonfirmasi')->get();
+        return view('pesanan.baru');
+    }
+
+
+    public function baru(Request $request)
+    {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Baru')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
 
         return response()->json([
             'data' => $orders
         ]);
     }
 
-    public function dikemas()
+    public function listDikonfirmasi()
     {
-        $orders = Order::where('status', 'Dikemas')->get();
+        return view('pesanan.dikonfirmasi');
+    }
+
+    public function dikonfirmasi(Request $request)
+    {
+
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Dikonfirmasi')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
 
         return response()->json([
             'data' => $orders
         ]);
     }
 
-    public function dikirim()
+    public function listDikemas()
     {
-        $orders = Order::where('status', 'Dikirim')->get();
+        return view('pesanan.dikemas');
+    }
+
+    public function dikemas(Request $request)
+    {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Dikemas')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return response()->json([
+            'data' => $orders
+        ]);
 
         return response()->json([
             'data' => $orders
         ]);
     }
 
-    public function diterima()
+    public function listDikirim()
     {
-        $orders = Order::where('status', 'Diterima')->get();
+        return view('pesanan.dikirim');
+    }
+
+    public function dikirim(Request $request)
+    {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Dikirim')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return response()->json([
+            'data' => $orders
+        ]);
 
         return response()->json([
             'data' => $orders
         ]);
     }
 
-    public function selesai()
+    public function listDiterima()
     {
-        $orders = Order::where('status', 'Selesai')->get();
+        return view('pesanan.diterima');
+    }
+
+    public function diterima(Request $request)
+    {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Diterima')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return response()->json([
+            'data' => $orders
+        ]);
+
+        return response()->json([
+            'data' => $orders
+        ]);
+    }
+
+    public function listSelesai()
+    {
+        return view('pesanan.selesai');
+    }
+
+    public function selesai(Request $request)
+    {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where('status', 'Selesai')
+        ->where('created_at', 'LIKE', '%' . $search . '%')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return response()->json([
+            'data' => $orders
+        ]);
 
         return response()->json([
             'data' => $orders
@@ -193,7 +276,8 @@ class OrderController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'success',
+            'success' => true,
+            'message' => 'Berhasil Mengonfirmasi Pesanan',
             'data' => $order
         ]);
     }

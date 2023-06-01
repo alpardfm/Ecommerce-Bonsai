@@ -19,7 +19,9 @@ Route::group([
 ], function(){
     Route::post('logins', [AuthController::class, 'login']);
     Route::post('logouts', [AuthController::class, 'logout']);
-    Route::post('register', [AuthController::class, 'register_member']);
+    Route::post('registerMember', [AuthController::class, 'register_member']);
+    Route::post('loginMember', [AuthController::class, 'login_member']);
+    Route::post('logoutMember', [AuthController::class, 'logout_member']);
 });
 
 Route::group([
@@ -27,6 +29,7 @@ Route::group([
 ], function(){
     Route::resources([
     'categories' => CategoryController::class,
+    'subcategories' => SubcategoryController::class,
     'sliders' => SliderController::class,
     'products' => ProductController::class,
     'members' => MemberController::class,
@@ -35,6 +38,7 @@ Route::group([
     'orders' => OrderController::class
     ]);
 
+    Route::get('order/baru', [OrderController::class, 'baru']);
     Route::get('order/dikonfirmasi', [OrderController::class, 'dikonfirmasi']);
     Route::get('order/dikemas', [OrderController::class, 'dikemas']);
     Route::get('order/dikirim', [OrderController::class, 'dikirim']);

@@ -14,4 +14,8 @@ class Member extends Model
     public function review(){
         return $this->hasMany(Review::class);
     }
+
+    public function order(){
+        return $this->hasMany(Order::class);
+    }
 }

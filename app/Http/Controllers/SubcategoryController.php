@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
-class ProductController extends Controller
+class SubcategoryController extends Controller
 {
 
     public function __construct()
@@ -26,23 +25,22 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->has('search') ? $request->search : "";
-        $produk = Product::with('category')
-            ->with('subcategory')
-            ->where('nama_produk', 'LIKE', '%' . $search . '%')
+        $subcategories = Subcategory::with('category')
+            ->where('nama_subkategori', 'LIKE', '%' . $search . '%')
             ->orWhere('deskripsi', 'LIKE', '%' . $search . '%')
             ->orderBy('id', 'desc')
             ->get();
 
+
         return response()->json([
-            'data' => $produk
+            'data' => $subcategories
         ]);
     }
 
     public function list()
     {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
-        return view('produk.index')->with('categories', $categories)->with('subcategories', $subcategories);
+        return view('subkategori.index', compact('categories'));
     }
 
     /**
@@ -65,15 +63,12 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
-            'id_subkategori' => 'required',
-            'nama_produk' => 'required',
+            'nama_subkategori' => 'required',
             'deskripsi' => 'required',
-            'harga' => 'required',
-            'diskon' => 'required',
             'gambar' => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails()){
             return response()->json(
                 $validator->errors(),
                 422
@@ -82,42 +77,42 @@ class ProductController extends Controller
 
         $input = $request->all();
 
-        if ($request->has('gambar')) {
+        if($request->has('gambar')){
             $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+            $nama_gambar = time() . rand(1,9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
         };
 
-        $produk = Product::create($input);
+        $subcategory = Subcategory::create($input);
 
         return response()->json([
             'success' => true,
             'message' => 'Berhasil menambah data',
-            'data' => $produk
+            'data' => $subcategory
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Subcategory  $subcategory
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Subcategory $subcategory)
     {
         return response()->json([
-            'data' => $product
+            'data' => $subcategory
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Subcategory  $subcategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Subcategory $subcategory)
     {
         //
     }
@@ -126,21 +121,18 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Subcategory  $subcategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Subcategory $subcategory)
     {
         $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
-            'id_subkategori' => 'required',
-            'nama_produk' => 'required',
-            'deskripsi' => 'required',
-            'harga' => 'required',
-            'diskon' => 'required',
+            'nama_subkategori' => 'required',
+            'deskripsi' => 'required'
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails()){
             return response()->json(
                 $validator->errors(),
                 422
@@ -149,35 +141,35 @@ class ProductController extends Controller
 
         $input = $request->all();
 
-        if ($request->has('gambar')) {
-            File::delete('uploads/' . $product->gambar);
+        if($request->has('gambar')){
+            File::delete('uploads/' . $subcategory->gambar);
             $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+            $nama_gambar = time() . rand(1,9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
         } else {
             unset($input['gambar']);
         };
 
-        $product->update($input);
+        $subcategory->update($input);
 
         return response()->json([
             'success' => true,
             'message' => 'Berhasil mengupdate data',
-            'data' => $product
+            'data' => $subcategory
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Subcategory  $subcategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Subcategory $subcategory)
     {
-        File::delete('uploads/' . $product->gambar);
-        $product->delete();
+        File::delete('uploads/' . $subcategory->gambar);
+        $subcategory->delete();
 
         return response()->json([
             'success' => true,

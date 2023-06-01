@@ -17,6 +17,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function index2()
+    {
+        return view('auth.auth_member');
+    }
+
     public function login(Request $request)
     {
 
@@ -27,7 +32,7 @@ class AuthController extends Controller
 
         $credential = request(['email', 'password']);
 
-        if(auth()->attempt($credential)) {
+        if (auth()->attempt($credential)) {
             $token = Auth::guard('api')->attempt($credential);
             return response()->json([
                 'success' => true,
@@ -71,7 +76,7 @@ class AuthController extends Controller
             'konfirmasi_password' => 'required|same:password'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -84,6 +89,8 @@ class AuthController extends Controller
         $members = Member::create($input);
 
         return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menambah data',
             'data' => $members
         ]);
     }
@@ -95,7 +102,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -103,22 +110,21 @@ class AuthController extends Controller
         }
 
         $member = Member::where('email', $request->email)->first();
-        if($member){
-            
-            if(Hash::check($request->password, $member->password)) {
+        if ($member) {
+
+            if (Hash::check($request->password, $member->password)) {
                 $request->session()->regenerate();
                 return response()->json([
                     'message' => 'success',
                     'data' => $member
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'message' => 'failed',
                     'data' => 'Password is wrong'
                 ]);
             }
-
-        }else{
+        } else {
             return response()->json([
                 'message' => 'failed',
                 'data' => 'Email is wrong'
@@ -132,7 +138,3 @@ class AuthController extends Controller
         redirect('/login_member');
     }
 }
-
-
-
-

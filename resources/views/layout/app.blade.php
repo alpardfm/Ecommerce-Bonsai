@@ -32,7 +32,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="sbadmin2/index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -58,6 +58,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/kategori">Data Kategori</a>
+                        <a class="collapse-item" href="/subkategori">Data Subkategori</a>
                         <a class="collapse-item" href="/slider">Data Slider</a>
                         <a class="collapse-item" href="/produk">Data Produk</a>
                         <a class="collapse-item" href="/member">Data Member</a>
@@ -75,12 +76,12 @@
                 </a>
                 <div id="pesanan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/pesanan/baru">Pesanan Baru</a>
-                        <a class="collapse-item" href="/pesanan/dikonfirmasi">Pesanan Dikonfirmasi</a>
-                        <a class="collapse-item" href="/pesanan/dikemas">Pesanan Dikemas</a>
-                        <a class="collapse-item" href="/pesanan/dikirim">Pesanan Dikirim</a>
-                        <a class="collapse-item" href="/pesanan/diterima">Pesanan Diterima</a>
-                        <a class="collapse-item" href="/pesanan/selesai">Pesanan Selesai</a>
+                        <a class="collapse-item" href="/pesananBaru">Pesanan Baru</a>
+                        <a class="collapse-item" href="/pesananDikonfirmasi">Pesanan Dikonfirmasi</a>
+                        <a class="collapse-item" href="/pesananDikemas">Pesanan Dikemas</a>
+                        <a class="collapse-item" href="/pesananDikirim">Pesanan Dikirim</a>
+                        <a class="collapse-item" href="/pesananDiterima">Pesanan Diterima</a>
+                        <a class="collapse-item" href="/pesananSelesai">Pesanan Selesai</a>
                     </div>
                 </div>
             </li>
@@ -90,13 +91,6 @@
                 <a class="nav-link" href="/laporan">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Laporan Pesanan</span></a>
-            </li>
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">
-                    <i class="fas fa-fw fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
             </li>
         </ul>
         <!-- End of Sidebar -->
@@ -128,7 +122,7 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="/logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
