@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class SliderController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
     }
 
     /**
@@ -36,7 +37,16 @@ class SliderController extends Controller
 
     public function list()
     {
-        return view('slider.index');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('slider.index');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     /**
@@ -63,7 +73,7 @@ class SliderController extends Controller
             'gambar' => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -72,9 +82,9 @@ class SliderController extends Controller
 
         $input = $request->all();
 
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1,9) . '.' . $gambar->getClientOriginalExtension();
+            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
         };
@@ -126,7 +136,7 @@ class SliderController extends Controller
             'deskripsi' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -135,10 +145,10 @@ class SliderController extends Controller
 
         $input = $request->all();
 
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             File::delete('uploads/' . $slider->gambar);
             $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1,9) . '.' . $gambar->getClientOriginalExtension();
+            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
         } else {

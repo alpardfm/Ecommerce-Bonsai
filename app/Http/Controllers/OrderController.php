@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -13,7 +14,7 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
     }
 
 
@@ -33,7 +34,16 @@ class OrderController extends Controller
 
     public function listBaru()
     {
-        return view('pesanan.baru');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.baru');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
 
@@ -41,9 +51,9 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Baru')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders
@@ -52,7 +62,16 @@ class OrderController extends Controller
 
     public function listDikonfirmasi()
     {
-        return view('pesanan.dikonfirmasi');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.dikonfirmasi');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     public function dikonfirmasi(Request $request)
@@ -60,9 +79,9 @@ class OrderController extends Controller
 
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikonfirmasi')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders
@@ -71,16 +90,25 @@ class OrderController extends Controller
 
     public function listDikemas()
     {
-        return view('pesanan.dikemas');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.dikemas');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     public function dikemas(Request $request)
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikemas')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders
@@ -93,16 +121,25 @@ class OrderController extends Controller
 
     public function listDikirim()
     {
-        return view('pesanan.dikirim');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.dikirim');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     public function dikirim(Request $request)
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikirim')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders
@@ -115,16 +152,25 @@ class OrderController extends Controller
 
     public function listDiterima()
     {
-        return view('pesanan.diterima');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.diterima');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     public function diterima(Request $request)
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Diterima')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders
@@ -137,16 +183,25 @@ class OrderController extends Controller
 
     public function listSelesai()
     {
-        return view('pesanan.selesai');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.selesai');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     public function selesai(Request $request)
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Selesai')
-        ->where('created_at', 'LIKE', '%' . $search . '%')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders

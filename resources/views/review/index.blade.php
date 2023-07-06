@@ -83,8 +83,12 @@
 @push('js')
 <script>
     $(function() {
+        const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/reviews',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
             success: function({
                 data
             }) {
@@ -112,10 +116,14 @@
         $(document).ready(function() {
             $("#search").on('keyup', function() {
                 $('tbody').empty()
+                const token = localStorage.getItem('token')
                 var query = $(this).val();
                 $.ajax({
                     url: "/api/reviews",
                     type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
                     data: {
                         search: query
                     },

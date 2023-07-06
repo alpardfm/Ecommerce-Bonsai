@@ -81,8 +81,12 @@
 @push('js')
 <script>
     $(function() {
+        const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/members',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
             success: function({
                 data
             }) {
@@ -108,9 +112,13 @@
             $("#search").on('keyup', function() {
                 $('tbody').empty()
                 var query = $(this).val();
+                const token = localStorage.getItem('token')
                 $.ajax({
                     url: "/api/members",
                     type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
                     data: {
                         search: query
                     },
@@ -140,7 +148,14 @@
         $(document).on('click', '.modal-detail', function() {
             $('#modal-form').modal('show')
             const id = $(this).data('id')
+            const token = localStorage.getItem('token')
 
+            $.ajaxSetup({
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            
             $.get('/api/members/' + id, function({
                 data
             }) {

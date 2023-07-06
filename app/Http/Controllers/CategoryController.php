@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -14,12 +15,21 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
     }
 
     public function list()
     {
-        return view('kategori.index');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('kategori.index');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     /**

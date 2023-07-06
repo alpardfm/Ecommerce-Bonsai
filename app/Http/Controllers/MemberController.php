@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
@@ -12,7 +13,7 @@ class MemberController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
     }
 
     /**
@@ -41,7 +42,16 @@ class MemberController extends Controller
 
     public function list()
     {
-        return view('member.index');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('member.index');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     /**
@@ -74,7 +84,7 @@ class MemberController extends Controller
             'konfirmasi_password' => 'required|same:password'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -137,7 +147,7 @@ class MemberController extends Controller
             'password' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422

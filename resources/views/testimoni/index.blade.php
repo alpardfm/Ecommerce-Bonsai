@@ -74,8 +74,12 @@
 @push('js')
 <script>
     $(function() {
+        const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/testimonis',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
             success: function({
                 data
             }) {
@@ -103,9 +107,13 @@
             $("#search").on('keyup', function() {
                 $('tbody').empty()
                 var query = $(this).val();
+                const token = localStorage.getItem('token')
                 $.ajax({
                     url: "/api/testimoni",
                     type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
                     data: {
                         search: query
                     },

@@ -58,8 +58,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/kategori">Data Kategori</a>
-                        <a class="collapse-item" href="/subkategori">Data Subkategori</a>
-                        <a class="collapse-item" href="/slider">Data Slider</a>
+                        <a class="collapse-item" href="/subkategori">Data Katalog</a>
+                        <a class="collapse-item" href="/slider">Data Promo</a>
                         <a class="collapse-item" href="/produk">Data Produk</a>
                         <a class="collapse-item" href="/member">Data Member</a>
                         <a class="collapse-item" href="/testimoni">Data Testimoni</a>

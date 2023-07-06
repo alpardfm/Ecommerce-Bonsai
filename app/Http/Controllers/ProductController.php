@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,7 +16,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
     }
 
     /**
@@ -40,9 +41,18 @@ class ProductController extends Controller
 
     public function list()
     {
-        $categories = Category::all();
-        $subcategories = Subcategory::all();
-        return view('produk.index')->with('categories', $categories)->with('subcategories', $subcategories);
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                $categories = Category::all();
+                $subcategories = Subcategory::all();
+                return view('produk.index')->with('categories', $categories)->with('subcategories', $subcategories);
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     /**

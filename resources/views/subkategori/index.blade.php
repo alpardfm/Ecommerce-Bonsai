@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Data Sub Kategori')
+@section('title', 'Data Katalog')
 @section('content')
 
 <div class="card shadow">
@@ -19,7 +19,7 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Sub Kategori</th>
+                        <th class="text-center">Nama Katalog</th>
                         <th class="text-center">Kategori</th>
                         <th class="text-center">Deskripsi</th>
                         <th class="text-center">Gambar</th>
@@ -38,7 +38,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Form Sub Kategori</h5>
+                <h5 class="modal-title">Form Katalog</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -48,7 +48,7 @@
                     <div class="col md-12">
                         <form class="form-subkategori">
                             <div class="form-group">
-                                <label for="">Nama Sub Kategori</label>
+                                <label for="">Nama Katalog</label>
                                 <input type="text" class="form-control" name="nama_subkategori" placeholder="Nama Kategori" required>
                             </div>
                             <div class="form-group">
@@ -83,8 +83,12 @@
 @push('js')
 <script>
     $(function() {
+        const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/subcategories',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
             success: function({
                 data
             }) {
@@ -111,9 +115,13 @@
             $("#search").on('keyup', function() {
                 $('tbody').empty()
                 var query = $(this).val();
+                const token = localStorage.getItem('token')
                 $.ajax({
                     url: "/api/subcategories",
                     type: "GET",
+                    headers: {
+                "Authorization": "Bearer " + token
+            },
                     data: {
                         search: query
                     },

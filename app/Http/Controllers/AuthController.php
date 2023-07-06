@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,11 +16,6 @@ class AuthController extends Controller
     public function index()
     {
         return view('auth.login');
-    }
-
-    public function index2()
-    {
-        return view('auth.auth_member');
     }
 
     public function login(Request $request)
@@ -49,7 +45,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Session::flush();
+        Auth::logout();
         return redirect('/login');
     }
 
@@ -62,7 +58,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register_member(Request $request)
+    public function register_member()
+    {
+        return view('auth.register_member');
+    }
+
+    public function register_member_action(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nama_member' => 'required',
@@ -77,25 +78,34 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                422
-            );
+            Session::flash('errors', $validator->errors()->toArray());
+            return redirect('/register_member');
         }
 
         $input = $request->all();
         $input['password'] = bcrypt($request->password);
         unset($input['konfirmasi_password']);
-        $members = Member::create($input);
+        $member = Member::create($input);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil menambah data',
-            'data' => $members
+        User::create([
+            'id_member' => $member->id,
+            'name' => $input['nama_member'],
+            'email' => $input['email'],
+            'password' => $input['password'],
+            'role' => 'member',
+            'email_verified_at' => now()
         ]);
+
+        Session::flash('success', 'Account successfully created');
+        return redirect('/login_member');
     }
 
-    public function login_member(Request $request)
+    public function login_member()
+    {
+        return view('auth.login_member');
+    }
+
+    public function login_member_action(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -103,38 +113,24 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                422
-            );
+            Session::flash('errors', $validator->errors()->toArray());
+            return redirect('/login_member');
         }
 
-        $member = Member::where('email', $request->email)->first();
-        if ($member) {
+        $credential = request(['email', 'password']);
 
-            if (Hash::check($request->password, $member->password)) {
-                $request->session()->regenerate();
-                return response()->json([
-                    'message' => 'success',
-                    'data' => $member
-                ]);
-            } else {
-                return response()->json([
-                    'message' => 'failed',
-                    'data' => 'Password is wrong'
-                ]);
-            }
-        } else {
-            return response()->json([
-                'message' => 'failed',
-                'data' => 'Email is wrong'
-            ]);
+        if (auth()->attempt($credential)) {
+            Auth::guard('web')->attempt($credential);
+            return redirect('/');
         }
+
+        Session::flash('failed', "Email atau password salah");
+        return redirect('/login_member');
     }
 
     public function logout_member()
     {
-        Session::flush();
-        redirect('/login_member');
+        Auth::logout();
+        return redirect('/login_member');
     }
 }

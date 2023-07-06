@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
@@ -14,7 +15,7 @@ class ReviewController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
     }
 
     /**
@@ -40,9 +41,18 @@ class ReviewController extends Controller
 
     public function list()
     {
-        $products = Product::all();
-        $members = Member::all();
-        return view('review.index')->with('products', $products)->with('members', $members);
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                $products = Product::all();
+                $members = Member::all();
+                return view('review.index')->with('products', $products)->with('members', $members);
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
     }
 
     /**
@@ -71,7 +81,7 @@ class ReviewController extends Controller
 
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422
@@ -128,7 +138,7 @@ class ReviewController extends Controller
             'rating' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(
                 $validator->errors(),
                 422

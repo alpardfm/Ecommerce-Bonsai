@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Data Slider')
+@section('title', 'Data Promo')
 @section('content')
 
 <div class="card shadow">
@@ -19,7 +19,7 @@
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Slider</th>
+                        <th class="text-center">Nama Promo</th>
                         <th class="text-center">Deskripsi</th>
                         <th class="text-center">Gambar</th>
                         <th class="text-center">Aksi</th>
@@ -37,7 +37,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Form Slider</h5>
+                <h5 class="modal-title">Form Promo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -47,7 +47,7 @@
                     <div class="col md-12">
                         <form class="form-slider">
                             <div class="form-group">
-                                <label for="">Nama Slider</label>
+                                <label for="">Nama Promo</label>
                                 <input type="text" class="form-control" name="nama_slider" placeholder="Nama Slider" required>
                             </div>
                             <div class="form-group">
@@ -74,8 +74,12 @@
 @push('js')
 <script>
     $(function() {
+        const token = localStorage.getItem('token')
         $.ajax({
             url: '/api/sliders',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
             success: function({
                 data
             }) {
@@ -103,9 +107,13 @@
             $("#search").on('keyup', function() {
                 $('tbody').empty()
                 var query = $(this).val();
+                const token = localStorage.getItem('token')
                 $.ajax({
                     url: "/api/sliders",
                     type: "GET",
+                    headers: {
+                "Authorization": "Bearer " + token
+            },
                     data: {
                         search: query
                     },
