@@ -87,8 +87,7 @@
                             <td class="text-center">${val.member.nama_member}
                             <td class="text-center">${rupiah(val.grand_total)}
                             <td class="text-center">
-                                <a data-toggle="modal" href="modal-pesanan" data-id="${val.id}" class="btn btn-primary modal-detail">Detail</a>
-                                <a href="#" data-id="${val.id}" class="btn btn-success btn-aksi">Check</a>
+                                <a href="/pesananDetail/${val.id}" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         `;
@@ -125,8 +124,7 @@
                             <td class="text-center">${val.member.nama_member}
                             <td class="text-center">${val.grand_total}
                             <td class="text-center">
-                                <a data-toggle="modal" href="modal-pesanan" data-id="${val.id}" class="btn btn-primary modal-detail">Detail</a>
-                                <a href="#" data-id="${val.id}" class="btn btn-success btn-aksi">Check</a>
+                                <a href="/pesananDetail/${val.id}" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         `;
@@ -138,51 +136,7 @@
             });
         });
 
-        // $(document).on('click', '.btn-aksi', function() {
-        //     const id = $(this).data('id');
-        //     const token = localStorage.getItem('token')
 
-        //     confirm_dialog = confirm('Apakah anda yakin ingin mengkonfirmasi pesanan ini ?');
-
-        //     if (confirm_dialog) {
-        //         $.ajax({
-        //             url: '/api/order/ubah_status/' + id,
-        //             type: 'POST',
-        //             data: {
-        //                 status: 'Dikonfirmasi'
-        //             },
-        //             headers: {
-        //                 "Authorization": "Bearer " + token
-        //             },
-        //             success: function(data) {
-        //                 if (data.success) {
-        //                     alert(data.message)
-        //                     location.reload()
-        //                 } else {
-        //                     alert(data.message)
-        //                 }
-
-        //             }
-        //         })
-        //     }
-        // });
-
-        // $(document).on('click', '.modal-detail', function() {
-        //     $('#modal-pesanan').modal('show')
-        //     const id = $(this).data('id')
-
-        //     $.get('/api/products/' + id, function({
-        //         data
-        //     }) {
-        //         $('#modal-form').modal('show')
-        //         $('input[name="nama_produk2342566y566"]').val(data.nama_produk)
-        //         $('input[name="id_kategori"]').val(data.id_kategori)
-        //         $('input[name="id_subkategori"]').val(data.id_subkategori)
-        //         $('input[name="harga"]').val(data.harga)
-        //         $('input[name="diskon"]').val(data.diskon)
-        //         $('textarea[name="deskripsi"]').val(data.deskripsi)
-        //     })
-        // })
 
     });
 </script>

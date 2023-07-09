@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
@@ -23,6 +24,18 @@ Route::get('/cart', [CartController::class, 'index']);
 Route::get('/cart/{id}', [CartController::class, 'destroy']);
 Route::get('/cartPlus/{id}', [CartController::class, 'plus']);
 Route::get('/cartMinus/{id}', [CartController::class, 'minus']);
+
+Route::get('/checkout', [PaymentController::class, 'index']);
+Route::get('/payment', [PaymentController::class, 'payment']);
+Route::get('/invoice/{id}', [PaymentController::class, 'invoice']);
+Route::get('/history', [PaymentController::class, 'history']);
+Route::get('/history/{id}', [PaymentController::class, 'history_detail']);
+
+Route::post('/addreview', [PaymentController::class, 'buat_review']);
+Route::get('/diterima/{id}', [PaymentController::class, 'diterima']);
+Route::get('/selesai/{id}', [PaymentController::class, 'selesai']);
+Route::get('/dikemas/{id}', [PaymentController::class, 'dikemas']);
+Route::get('/dikirim/{id}', [PaymentController::class, 'dikirim']);
 
 //auth
 Route::get('login', [AuthController::class, 'index'])->name('login');
@@ -50,5 +63,8 @@ Route::get('/pesananDikemas', [OrderController::class, 'listDikemas']);
 Route::get('/pesananDikirim', [OrderController::class, 'listDikirim']);
 Route::get('/pesananDiterima', [OrderController::class, 'listDiterima']);
 Route::get('/pesananSelesai', [OrderController::class, 'listSelesai']);
+Route::get('/pesananDetail/{id}', [OrderController::class, 'detail']);
 
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
+Route::get('/laporan', [OrderController::class, 'laporan']);

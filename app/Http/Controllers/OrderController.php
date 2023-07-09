@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -13,7 +14,7 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only(['listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
+        $this->middleware('auth')->only(['laporan', 'detail', 'listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
         $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
     }
 
@@ -30,6 +31,34 @@ class OrderController extends Controller
         return response()->json([
             'data' => $order
         ]);
+    }
+
+    public function laporan()
+    {
+        $results = OrderDetail::with('product')
+            ->join('orders', 'order_details.id_order', '=', 'orders.id')
+            ->select('order_details.id_produk', DB::raw('SUM(order_details.jumlah) as terjual'), DB::raw('SUM(order_details.total) as pendapatan'))
+            ->where('orders.status', 'Selesai')
+            ->groupBy('order_details.id_produk')
+            ->get();
+
+        $totalPendapatan = OrderDetail::join('orders', 'order_details.id_order', '=', 'orders.id')
+            ->where('orders.status', 'Selesai')
+            ->sum('order_details.total');
+
+        return view('laporan.index', compact('results', 'totalPendapatan'));
+    }
+
+    public function detail($id)
+    {
+        $pesanan = Order::with('member')
+            ->find($id);
+
+        $pesananDetail = OrderDetail::with('product')
+            ->where('id_order', 'LIKE', '%' . $id . '%')
+            ->get();
+
+        return view('pesanan.detail', compact('pesanan', 'pesananDetail'));
     }
 
     public function listBaru()
@@ -51,7 +80,10 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Baru')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 
@@ -79,7 +111,10 @@ class OrderController extends Controller
 
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikonfirmasi')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 
@@ -106,7 +141,10 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikemas')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 
@@ -137,7 +175,10 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Dikirim')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 
@@ -168,7 +209,10 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Diterima')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 
@@ -199,7 +243,10 @@ class OrderController extends Controller
     {
         $search = $request->has('search') ? $request->search : "";
         $orders = Order::with('member')->where('status', 'Selesai')
-            ->where('created_at', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy('id', 'desc')
             ->get();
 

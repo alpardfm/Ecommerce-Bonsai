@@ -1,5 +1,10 @@
 @extends('layout.home')
 @section('content')
+@if(session('message'))
+    <script>
+        alert('{{ session("message") }}');
+    </script>
+@endif
 <!-- Page Title -->
 <section class="page-title text-center bg-light">
     <div class="container relative clearfix">
@@ -98,7 +103,7 @@
                             </div>
                             <div class="actions">
                                 <div class="wc-proceed-to-checkout">
-                                    <a href="checkout.html" class="btn btn-lg btn-dark"><span>proceed to checkout</span></a>
+                                    <a href="/payment" class="btn btn-lg btn-dark"><span>proceed to checkout</span></a>
                                 </div>
                             </div>
                         </div>
@@ -111,3 +116,4 @@
         </div> <!-- end container -->
     </section> <!-- end cart -->
     @endsection
+    

@@ -68,7 +68,7 @@
                             <td class="text-center">${val.member.nama_member}
                             <td class="text-center">${rupiah(val.grand_total)}
                             <td class="text-center">
-                                <a data-toggle="modal" href="modal-pesanan" data-id="${val.id}" class="btn btn-primary modal-detail">Detail</a>
+                                <a href="/pesananDetail/${val.id}" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         `;
@@ -105,7 +105,7 @@
                             <td class="text-center">${val.member.nama_member}
                             <td class="text-center">${val.grand_total}
                             <td class="text-center">
-                                <a data-toggle="modal" href="modal-pesanan" data-id="${val.id}" class="btn btn-primary modal-detail">Detail</a>
+                                <a href="/pesananDetail/${val.id}" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         `;
@@ -117,34 +117,6 @@
             });
         });
 
-        // $(document).on('click', '.btn-aksi', function() {
-        //     const id = $(this).data('id');
-        //     const token = localStorage.getItem('token')
-
-        //     confirm_dialog = confirm('Apakah anda yakin ingin mengkonfirmasi pesanan ini ?');
-
-        //     if (confirm_dialog) {
-        //         $.ajax({
-        //             url: '/api/order/ubah_status/' + id,
-        //             type: 'POST',
-        //             data: {
-        //                 status: 'Diterima'
-        //             },
-        //             headers: {
-        //                 "Authorization": "Bearer " + token
-        //             },
-        //             success: function(data) {
-        //                 if (data.success) {
-        //                     alert(data.message)
-        //                     location.reload()
-        //                 } else {
-        //                     alert(data.message)
-        //                 }
-
-        //             }
-        //         })
-        //     }
-        // });
 
 
     });

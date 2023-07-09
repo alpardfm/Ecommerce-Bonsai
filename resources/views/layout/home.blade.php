@@ -9,6 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="">
 
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{config('midtrans.client_key')}}"></script>
+  <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
+
   <!-- Google Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700%7COpen+Sans:400,400i,600,700' rel='stylesheet'>
 
@@ -83,8 +86,7 @@
                 <div class="nav-cart mobile-cart hidden-lg hidden-md">
                   <div class="nav-cart-outer">
                     <div class="nav-cart-inner">
-                      <a href="#" class="nav-cart-icon">
-                        <span class="nav-cart-badge">2</span>
+                      <a href="/cart" class="nav-cart-icon">
                       </a>
                     </div>
                   </div>
@@ -114,7 +116,7 @@
                   <li class="nav-cart">
                     <div class="nav-cart-outer">
                       <div class="nav-cart-inner">
-                        <a href="#">
+                        <a href="/history">
                           <i class="fa fa-history" style="font-size:30px"></i>
                         </a>
                       </div>
@@ -186,6 +188,8 @@
   <script type="text/javascript" src="/front/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/front/js/plugins.js"></script>
   <script type="text/javascript" src="/front/js/scripts.js"></script>
+
+  @stack('js')
 
 </body>
 
