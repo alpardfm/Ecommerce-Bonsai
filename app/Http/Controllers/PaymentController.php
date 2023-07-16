@@ -111,14 +111,21 @@ class PaymentController extends Controller
         $trx = Order::find($id);
         $trx->update(['status' => 'Dikemas']);
 
-        return redirect('/pesananDikonfirmasi');
+        return redirect('/pesanan');
     }
 
     public function dikirim($id){
         $trx = Order::find($id);
         $trx->update(['status' => 'Dikirim']);
 
-        return redirect('/pesananDikemas');
+        return redirect('/pesanan');
+    }
+
+    public function dikonfirmasi($id) {
+        $trx = Order::find($id);
+        $trx->update(['status' => 'Dikonfirmasi']);
+
+        return redirect('/pesanan');
     }
 
     public function payment()
@@ -143,7 +150,7 @@ class PaymentController extends Controller
         $trx = Order::create([
             'id_member' => $user,
             'invoice' => rand(1, 1000),
-            'grand_total' => $grandTotal,
+            'grand_total' => $grandTotal + 25000,
             'status' => "Baru"
         ]);
 

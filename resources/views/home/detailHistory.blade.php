@@ -52,6 +52,12 @@
                     </td>
                 </tr>
                 <tr class="order-total">
+                    <th><strong>Ongkir</strong></th>
+                    <td>
+                        25000
+                    </td>
+                </tr>
+                <tr class="order-total">
                     <th><strong>Total Yang Sudah Di Bayar</strong></th>
                     <td>
                         {{$trx->grand_total}}
@@ -60,12 +66,7 @@
                 <tr class="order-total">
                     <th><strong>Status Transaksi</strong></th>
                     <td>
-                        @if($trx->status == "Baru")
-                        Gagal
-                        @else
                         {{$trx->status}}
-                        @endif
-
                     </td>
                 </tr>
             </tbody>
@@ -127,8 +128,14 @@
                         <input type="text" class="form-control" id="review" name="review" placeholder="Produk ini terbaik">
                     </div>
                     <div class="form-group">
-                        <label for="email">Rating</label>
-                        <input type="number" class="form-control" id="rating" name="rating" placeholder="Masukan rating 1-100">
+                        <label for="rating">Rating</label>
+                        <span class="star-rating star-5">
+                            <input type="radio" name="rating" value="1"><i></i>
+                            <input type="radio" name="rating" value="2"><i></i>
+                            <input type="radio" name="rating" value="3"><i></i>
+                            <input type="radio" name="rating" value="4"><i></i>
+                            <input type="radio" name="rating" value="5"><i></i>
+                        </span>
                     </div>
                     <input type="hidden" name="trxId" value="{{$trx->id}}">
                     <div class="form-group">

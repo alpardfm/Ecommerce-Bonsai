@@ -18,26 +18,30 @@
         </div>
     </div>
 </section>
-<br>
 <div class="col-md-12">
+    @foreach($history as $historys)
+    <br>
     <div class="order-review-wrap ecommerce-checkout-review-order" id="order_review">
-        @foreach($history as $historys)
         <table class="table shop_table ecommerce-checkout-review-order-table">
             <tbody>
                 <tr class="order-total">
-                    <th><strong>ID Transaksi</strong></th>
+                    <th><strong>Invoice</strong></th>
                     <td>
-                        {{$historys->id}}
+                    <time datetime="<?php echo date('Y'); ?>"><?php echo date('Y'); ?></time>/INV/{{$historys->invoice}}
                     </td>
                 </tr>
+                
                 <tr class="order-total">
                     <th><strong>Status Transaksi</strong></th>
                     <td>
-                        @if($historys->status == "Baru")
-                        Gagal
-                        @else
                         {{$historys->status}}
-                        @endif
+                    </td>
+                </tr>
+
+                <tr class="order-total">
+                    <th><strong>Total</strong></th>
+                    <td>
+                        {{$historys->grand_total}}
                     </td>
                 </tr>
                 <tr>
@@ -48,8 +52,8 @@
                 </tr>
             </tbody>
         </table>
-        @endforeach
     </div>
+    @endforeach
 </div> <!-- end order review -->
 </div>
 <br>

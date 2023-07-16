@@ -4,7 +4,6 @@
 <section class="section-wrap pb-40 single-product">
     <div class="container-fluid semi-fluid">
         <div class="row">
-
             <div class="col-md-6 col-xs-6 mb-60">
                 <div class="gallery-cell">
                     <a href="/uploads/{{ $produk->gambar }}" class="lightbox-img">
@@ -26,7 +25,11 @@
                         Add to cart
                     </li>
                 </ol>
-
+                @if($errors->any())
+                <br>
+                    <h4 style="color: red;">{{$errors->first()}}</h4>
+                <br>
+                @endif
                 <form action="/addCart" method="POST">
                     @csrf
                     <h1 class="product-title">{{ $produk->nama_produk }}</h1>
@@ -113,9 +116,37 @@
                                             <div class="review-body">
                                                 <div class="review-content">
                                                     <p class="review-author"><strong>{{$reviews->member->nama_member}}</strong> - {{$reviews->created_at}} </p>
-                                                    <div class="rating">
-                                                        <a href="#"></a>
-                                                    </div>
+                                                    @if($reviews->rating >= 5)
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    @elseif($reviews->rating == 4)
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    @elseif($reviews->rating == 3)
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    @elseif($reviews->rating == 2)
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    @elseif($reviews->rating == 1)
+                                                    <span class="fa fa-star" style="color:orange"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    @endif
                                                     <p>{{$reviews->review}}</p>
                                                 </div>
                                             </div>

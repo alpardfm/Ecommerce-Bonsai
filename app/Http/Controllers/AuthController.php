@@ -65,6 +65,13 @@ class AuthController extends Controller
 
     public function register_member_action(Request $request)
     {
+        $user = User::where('email', $request->email)->first();
+
+        if($user){
+            Session::flash('failed', 'Email sudah terdaftar');
+            return redirect('/register_member');
+        }
+        
         $validator = Validator::make($request->all(), [
             'nama_member' => 'required',
             'provinsi' => 'required',

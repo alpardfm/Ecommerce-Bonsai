@@ -67,6 +67,12 @@
                     </tr>
                     @endforeach
                     <tr class="order-total">
+                        <th><strong>Ongkir</strong></th>
+                        <td>
+                            <span class="amount">25000</span>
+                        </td>
+                    </tr>
+                    <tr class="order-total">
                         <th><strong>Order Total</strong></th>
                         <td>
                             <strong><span class="amount">{{$trx->grand_total}}</span></strong>

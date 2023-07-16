@@ -5,12 +5,30 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12 mb-12">
+                <form action="filterLaporan" method="get">
+                    <div class="row">
+                        <div class="col-md-5 form-group">
+                            <label for="">Start Date</label>
+                            <input type="date" name="date_from" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <div class="col-md-5 form-group">
+                            <label for="">End Date</label>
+                            <input type="date" name="date_to" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <div class="col-md-2 form-group" style="margin-top:25px;">
+                            <input type="submit" class="btn btn-primary" value="Filter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 mb-12">
+
                 <form>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Total Pendapatan</label>
                         <input type="email" class="form-control" value="{{$totalPendapatan}}" readonly>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="exampleInputEmail1">List Produk Terjual</label>
                         <div class="table-responsive">
@@ -25,20 +43,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($results as $list)
-                                        <tr>
-                                            <td class="text-center">
-                                                {{$list->product->id}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{$list->product->nama_produk}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{$list->terjual}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{$list->pendapatan}}
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{$list->product->id}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{$list->product->nama_produk}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{$list->terjual}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{$list->pendapatan}}
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>

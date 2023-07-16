@@ -22,6 +22,7 @@
                         <th class="text-center">Nama Produk</th>
                         <th class="text-center">Kategori</th>
                         <th class="text-center">Sub Kategori</th>
+                        <th class="text-center">Stok</th>
                         <th class="text-center">Harga</th>
                         <th class="text-center">Diskon</th>
                         <th class="text-center">Deskripsi</th>
@@ -69,6 +70,10 @@
                                     <option value="{{$subcategory->id}}">{{$subcategory->nama_subkategori}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Stok</label>
+                                <input type="number" class="form-control" name="stok" placeholder="5" required>
                             </div>
                             <div class="form-group">
                                 <label for="">Harga</label>
@@ -119,6 +124,7 @@
                             <td class="text-center">${val.nama_produk}</td>
                             <td class="text-center">${val.category.nama_kategori}</td>
                             <td class="text-center">${val.subcategory.nama_subkategori}</td>
+                            <td class="text-center">${val.stok}</td>
                             <td class="text-center">${val.harga}</td>
                             <td class="text-center">${val.diskon}</td>
                             <td class="text-center">${val.deskripsi}</td>
@@ -160,6 +166,7 @@
                             <td class="text-center">${val.nama_produk}</td>
                             <td class="text-center">${val.category.nama_kategori}</td>
                             <td class="text-center">${val.subcategory.nama_subkategori}</td>
+                            <td class="text-center">${val.stok}</td>
                             <td class="text-center">${val.harga}</td>
                             <td class="text-center">${val.diskon}</td>
                             <td class="text-center">${val.deskripsi}</td>
@@ -250,6 +257,7 @@
                 $('input[name="nama_produk"]').val(data.nama_produk)
                 $('input[name="id_kategori"]').val(data.id_kategori)
                 $('input[name="id_subkategori"]').val(data.id_subkategori)
+                $('input[name="stok"]').val(data.stok)
                 $('input[name="harga"]').val(data.harga)
                 $('input[name="diskon"]').val(data.diskon)
                 $('textarea[name="deskripsi"]').val(data.deskripsi)

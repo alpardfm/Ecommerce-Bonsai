@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('id_kategori');
             $table->integer('id_subkategori');
             $table->string('nama_produk');
+            $table->integer('stok');
             $table->string('gambar');
             $table->text('deskripsi');
             $table->integer('harga');

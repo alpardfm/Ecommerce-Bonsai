@@ -36,6 +36,7 @@ Route::get('/diterima/{id}', [PaymentController::class, 'diterima']);
 Route::get('/selesai/{id}', [PaymentController::class, 'selesai']);
 Route::get('/dikemas/{id}', [PaymentController::class, 'dikemas']);
 Route::get('/dikirim/{id}', [PaymentController::class, 'dikirim']);
+Route::get('/dikonfirmasi/{id}', [PaymentController::class, 'dikonfirmasi']);
 
 //auth
 Route::get('login', [AuthController::class, 'index'])->name('login');
@@ -57,6 +58,7 @@ Route::get('/member', [MemberController::class, 'list']);
 Route::get('/testimoni', [TestimoniController::class, 'list']);
 Route::get('/review', [ReviewController::class, 'list']);
 
+Route::get('/pesanan', [OrderController::class, 'list']);
 Route::get('/pesananBaru', [OrderController::class, 'listBaru']);
 Route::get('/pesananDikonfirmasi', [OrderController::class, 'listDikonfirmasi']);
 Route::get('/pesananDikemas', [OrderController::class, 'listDikemas']);
@@ -68,3 +70,4 @@ Route::get('/pesananDetail/{id}', [OrderController::class, 'detail']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/laporan', [OrderController::class, 'laporan']);
+Route::get('/filterLaporan', [OrderController::class, 'filterLaporan']);

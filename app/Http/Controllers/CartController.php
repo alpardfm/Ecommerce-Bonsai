@@ -46,6 +46,11 @@ class CartController extends Controller
 
     public function plus($id)
     {
+        $dataCart = Cart::find($id);
+
+        Product::where('id', $dataCart->id_produk)
+        ->increment('stok', -1, ['updated_at' => Carbon::now()]);
+
         Cart::where('id', $id)
         ->increment('jumlah', 1, ['updated_at' => Carbon::now()]);
 
@@ -54,6 +59,11 @@ class CartController extends Controller
 
     public function minus($id)
     {
+        $dataCart = Cart::find($id);
+
+        Product::where('id', $dataCart->id_produk)
+        ->increment('stok', 1, ['updated_at' => Carbon::now()]);
+
         Cart::where('id', $id)
         ->increment('jumlah', -1, ['updated_at' => Carbon::now()]);
 
@@ -80,11 +90,18 @@ class CartController extends Controller
     {
         $input = $request->all();
         $produk = Product::findOrFail($input['id_produk']);
-        $input['total'] = $produk->harga * $input['jumlah'];
-
-        Cart::create($input);
-
-        return redirect('/katalog');
+        if($produk->stok > $input['jumlah']){
+            $produk->update([
+                'stok' => $produk->stok - $input['jumlah']
+            ]);
+            $input['total'] = $produk->harga * $input['jumlah'];
+    
+            Cart::create($input);
+    
+            return redirect('/katalog');
+        }else{
+            return back()->withErrors(['msg' => 'Stok produk tidak mencukupi']);
+        }
         
     }
 

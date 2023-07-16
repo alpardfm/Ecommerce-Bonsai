@@ -14,7 +14,7 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only(['laporan', 'detail', 'listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
+        $this->middleware('auth')->only(['list','laporan', 'detail', 'listBaru', 'listDikonfirmasi', 'listDikemas', 'listDikirim', 'listDiterima', 'listSelesai']);
         $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
     }
 
@@ -49,6 +49,28 @@ class OrderController extends Controller
         return view('laporan.index', compact('results', 'totalPendapatan'));
     }
 
+    public function filterLaporan(Request $request)
+    {
+        $results = OrderDetail::with('product')
+            ->join('orders', 'order_details.id_order', '=', 'orders.id')
+            ->select('order_details.id_produk', DB::raw('SUM(order_details.jumlah) as terjual'), DB::raw('SUM(order_details.total) as pendapatan'))
+            ->where('orders.status', 'Selesai')
+            ->groupBy('order_details.id_produk')
+            ->whereBetween(
+                DB::raw('DATE(orders.created_at)'),
+                [
+                    $request->date_from,
+                    $request->date_to
+                ])
+            ->get();
+
+        $totalPendapatan = OrderDetail::join('orders', 'order_details.id_order', '=', 'orders.id')
+            ->where('orders.status', 'Selesai')
+            ->sum('order_details.total');
+
+        return view('laporan.index', compact('results', 'totalPendapatan'));
+    }
+
     public function detail($id)
     {
         $pesanan = Order::with('member')
@@ -59,6 +81,35 @@ class OrderController extends Controller
             ->get();
 
         return view('pesanan.detail', compact('pesanan', 'pesananDetail'));
+    }
+
+    public function list()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role == "admin") {
+                return view('pesanan.index');
+            } else {
+                return redirect('/login_member');
+            }
+        } else {
+            return redirect('/login_member');
+        }
+    }
+
+    public function pesanan(Request $request) {
+        $search = $request->has('search') ? $request->search : "";
+        $orders = Order::with('member')->where(function ($query) use ($search) {
+                $query->where('created_at', 'LIKE', '%' . $search . '%')
+                    ->orWhere('invoice', 'LIKE', '%' . $search . '%')
+                    ->orWhere('status', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json([
+            'data' => $orders
+        ]);
     }
 
     public function listBaru()

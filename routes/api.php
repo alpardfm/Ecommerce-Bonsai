@@ -39,6 +39,7 @@ Route::group([
     'orders' => OrderController::class
     ]);
 
+    Route::get('order/list', [OrderController::class, 'pesanan']);
     Route::get('order/baru', [OrderController::class, 'baru']);
     Route::get('order/dikonfirmasi', [OrderController::class, 'dikonfirmasi']);
     Route::get('order/dikemas', [OrderController::class, 'dikemas']);

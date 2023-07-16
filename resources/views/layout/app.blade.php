@@ -76,12 +76,7 @@
                 </a>
                 <div id="pesanan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/pesananBaru">Pesanan Baru</a>
-                        <a class="collapse-item" href="/pesananDikonfirmasi">Pesanan Dikonfirmasi</a>
-                        <a class="collapse-item" href="/pesananDikemas">Pesanan Dikemas</a>
-                        <a class="collapse-item" href="/pesananDikirim">Pesanan Dikirim</a>
-                        <a class="collapse-item" href="/pesananDiterima">Pesanan Diterima</a>
-                        <a class="collapse-item" href="/pesananSelesai">Pesanan Selesai</a>
+                        <a class="collapse-item" href="/pesanan">Pesanan</a>
                     </div>
                 </div>
             </li>

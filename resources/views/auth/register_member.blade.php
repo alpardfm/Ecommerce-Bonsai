@@ -13,6 +13,9 @@
                 @endforeach
             </ul>
             @endif
+            @if (Session::has('failed'))
+            <p style="color: red">{{Session::get('failed')}}</p>
+            @endif
             <form action="/register_member" method="POST" class="mt-10">
                 @csrf
                 <div class="my-3">

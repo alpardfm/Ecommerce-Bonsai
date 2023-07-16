@@ -107,7 +107,8 @@
                   <li class="nav-cart">
                     <div class="nav-cart-outer">
                       <div class="nav-cart-inner">
-                        <a href="/cart" class="nav-cart-icon">
+                        <a href="/cart">
+                          <i class="fa fa-shopping-cart" style="font-size:30px" title="Keranjang"></i>
                         </a>
                       </div>
                     </div>
@@ -117,7 +118,7 @@
                     <div class="nav-cart-outer">
                       <div class="nav-cart-inner">
                         <a href="/history">
-                          <i class="fa fa-history" style="font-size:30px"></i>
+                          <i class="fa fa-history" style="font-size:30px" title="History Transaksi"></i>
                         </a>
                       </div>
                     </div>
