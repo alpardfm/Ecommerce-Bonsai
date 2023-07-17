@@ -58,7 +58,7 @@ class PaymentController extends Controller
         ->where('id_order', 'LIKE', '%' . $request->trxId . '%')
         ->get();
 
-        $users = Auth::user()->id;
+        $users = Auth::user()->id_member;
 
         foreach($trxs as $trx){
             Review::create([
