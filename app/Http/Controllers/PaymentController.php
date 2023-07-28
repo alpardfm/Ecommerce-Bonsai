@@ -42,14 +42,18 @@ class PaymentController extends Controller
     }
 
     public function history_detail($id){
+        $user = Auth::user()->id_member;
         $trx = Order::with('member')
         ->find($id);
 
         $trxDetail = OrderDetail::with('product')
             ->where('id_order', 'LIKE', '%' . $id . '%')
             ->get();
+
+        $grandTotal = Cart::where('id_member', 'LIKE', '%' . $user . '%')
+            ->sum('total');
         
-        return view('home.detailHistory', compact('trx','trxDetail'));
+        return view('home.detailHistory', compact('trx','trxDetail', 'grandTotal'));
     }
 
     public function buat_review(Request $request){
@@ -146,11 +150,20 @@ class PaymentController extends Controller
 
         $grandTotal = Cart::where('id_member', 'LIKE', '%' . $user . '%')
             ->sum('total');
+        
+        $ongkir = 0;
+        if($grandTotal <= 1000000){
+            $ongkir = 50000;
+        }elseif($grandTotal <= 2000000){
+            $ongkir = 25000;
+        }else{
+            $ongkir = 0;
+        }
 
         $trx = Order::create([
             'id_member' => $user,
             'invoice' => rand(1, 1000),
-            'grand_total' => $grandTotal + 25000,
+            'grand_total' => $grandTotal + $ongkir,
             'status' => "Baru"
         ]);
 
@@ -195,7 +208,7 @@ class PaymentController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-        return view('home.checkout', compact('snapToken', 'trx', 'member', 'trxDetail'));
+        return view('home.checkout', compact('snapToken', 'trx', 'member', 'trxDetail', 'grandTotal'));
     }
 
     /**

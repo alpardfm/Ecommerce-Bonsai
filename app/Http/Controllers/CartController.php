@@ -47,6 +47,7 @@ class CartController extends Controller
     public function plus($id)
     {
         $dataCart = Cart::find($id);
+        $produk = Product::find($dataCart->id_produk);
 
         Product::where('id', $dataCart->id_produk)
         ->increment('stok', -1, ['updated_at' => Carbon::now()]);
@@ -54,18 +55,25 @@ class CartController extends Controller
         Cart::where('id', $id)
         ->increment('jumlah', 1, ['updated_at' => Carbon::now()]);
 
+        Cart::where('id', $id)
+        ->increment('total', $produk->harga, ['updated_at' => Carbon::now()]);
+
         return redirect('/cart');
     }
 
     public function minus($id)
     {
         $dataCart = Cart::find($id);
+        $produk = Product::find($dataCart->id_produk);
 
         Product::where('id', $dataCart->id_produk)
         ->increment('stok', 1, ['updated_at' => Carbon::now()]);
 
         Cart::where('id', $id)
         ->increment('jumlah', -1, ['updated_at' => Carbon::now()]);
+
+        Cart::where('id', $id)
+        ->increment('total', -$produk->harga, ['updated_at' => Carbon::now()]);
 
         return redirect('/cart');
     }

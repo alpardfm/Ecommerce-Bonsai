@@ -52,10 +52,10 @@
                                             <span class="amount">Rp. {{$produks->harga}}</span>
                                         </ins>
                                     </span>
-
+                                    <br>
                                     <div class="clear"></div>
                                     <br>
-                                    <p style="text-align: justify;">{{$produks->deskripsi}}</p>
+                                    <p style="text-align: justify;"> {{$produks->deskripsi}}</p>
                                     <br>
                                     <a href="/beforeCart/{{$produks->id}}" class="btn btn-dark btn-md left"><span>Masukan Keranjang</span></a>
 

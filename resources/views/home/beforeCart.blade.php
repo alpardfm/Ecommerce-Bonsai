@@ -96,6 +96,10 @@
                                             <th>Jenis:</th>
                                             <td>{{$produk->subcategory->nama_subkategori}}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Stok:</th>
+                                            <td>{{$produk->stok}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

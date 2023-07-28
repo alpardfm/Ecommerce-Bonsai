@@ -69,7 +69,15 @@
                     <tr class="order-total">
                         <th><strong>Ongkir</strong></th>
                         <td>
-                            <span class="amount">25000</span>
+                            <span class="amount">
+                                @if($grandTotal <= 1000000)
+                                    50000
+                                @elseif($grandTotal <= 2000000)
+                                    25000
+                                @else
+                                    Free Ongkir
+                                @endif
+                            </span>
                         </td>
                     </tr>
                     <tr class="order-total">

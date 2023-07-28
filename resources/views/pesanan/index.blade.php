@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Data Pesanan Baru')
+@section('title', 'Data Pesanan')
 @section('content')
 
 <div class="card shadow">

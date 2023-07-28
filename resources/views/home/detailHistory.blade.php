@@ -54,8 +54,7 @@
                 <tr class="order-total">
                     <th><strong>Ongkir</strong></th>
                     <td>
-                        25000
-                    </td>
+                        @if($grandTotal <= 1000000) 50000 @elseif($grandTotal <= 2000000) 25000 @else Free Ongkir @endif </td>
                 </tr>
                 <tr class="order-total">
                     <th><strong>Total Yang Sudah Di Bayar</strong></th>
