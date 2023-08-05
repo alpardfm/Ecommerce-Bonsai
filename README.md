@@ -7,8 +7,8 @@ Prepare
 - [Midtrans](https://midtrans.com/)
 
 Step For Integrate For Your Device
-- register midtrans
-- register ngrok
+- [register midtrans](https://dashboard.midtrans.com/register)
+- [register ngrok](https://dashboard.ngrok.com/signup)
 - git clone https://github.com/alpardfm/Ecommerce-Bonsai.git
 - create databases 'bonsai_web'
 - setting name database in .env
@@ -18,7 +18,10 @@ Step For Integrate For Your Device
 - php artisan serve
 - add auth token ngrok
 - run ngrok (online your project from local use ngrok for receive callback from midtrans)
+- setting generate url from ngrok to setting midtrans
 
 Default Login Admin
 - Email : admin@gmail.com
 - Password : admin123123
+
+Note: if you have any questions, you can contact me via social media on the github profile
