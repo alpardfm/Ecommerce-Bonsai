@@ -3,6 +3,8 @@ Prepare
 - Composer version 2.5.3
 - Node v12.22.9
 - NPM 8.5.1
+- Ngrok [https://ngrok.com/]
+- Midtrans [https://midtrans.com/]
 
 Step For Integrate For Your Device
 - git clone https://github.com/alpardfm/Ecommerce-Bonsai.git
